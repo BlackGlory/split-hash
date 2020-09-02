@@ -70,7 +70,7 @@ stream
   .on('error', err => console.error('not matched'))
 ```
 
-### Interface
+## Interface
 
 ```ts
 type ProgressiveHashFactory<T> = () => ProgressiveHash<T>
