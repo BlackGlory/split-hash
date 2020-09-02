@@ -50,7 +50,6 @@
     "jest": "^26.4.2",
     "return-style": "^0.9.1",
     "ts-jest": "^26.3.0",
-    "ts-node": "^9.0.0",
     "tscpaths": "^0.0.9",
     "typescript": "^4.0.2"
   }
