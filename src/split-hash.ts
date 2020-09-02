@@ -1,9 +1,4 @@
-export type ProgressiveHashFactory<T> = () => ProgressiveHash<T>
-
-export interface ProgressiveHash<T> {
-  update(buffer: Buffer): void
-  digest(): T
-}
+import { ProgressiveHashFactory } from '@src/types'
 
 export async function* splitHash<T>(stream: NodeJS.ReadableStream, blockSize: number, createHash: ProgressiveHashFactory<T>): AsyncIterable<T> {
   let hash = createHash()
