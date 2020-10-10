@@ -3,7 +3,7 @@ import { splitHash, StreamEncodingError } from '@src/split-hash'
 import { toArrayAsync } from 'iterable-operator'
 import { KiB, getSampleStream, createHexHash } from '@test/utils'
 import { hashList128KiB, hashList150KiB } from '@test/fixtures/hash-list'
-import '@test/matchers'
+import '@blackglory/jest-matchers'
 
 describe('splitHash', () => {
   describe('encoding stream', () => {
