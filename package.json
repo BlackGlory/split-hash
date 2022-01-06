@@ -15,7 +15,8 @@
     "lib"
   ],
   "main": "lib/es2018/index.js",
-  "typings": "lib/es2018/index.d.ts",
+  "types": "lib/es2018/index.d.ts",
+  "sideEffects": false,
   "repository": "git@github.com:BlackGlory/split-hash.git",
   "author": "BlackGlory <woshenmedoubuzhidao@blackglory.me>",
   "license": "MIT",
