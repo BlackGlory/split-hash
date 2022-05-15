@@ -1,7 +1,7 @@
 import { SplitHashValidator, NotMatchedError } from '@src/split-hash-validator'
 import { KiB, getSampleBuffer, getSampleStream, createHexHash } from '@test/utils'
 import { hashList128KiB, hashList150KiB } from '@test/fixtures/hash-list'
-import { go } from '@blackglory/go'
+import { go } from '@blackglory/prelude'
 
 describe('SplitHashValidator', () => {
   // 8 same size parts
