@@ -1,8 +1,9 @@
-import { ProgressiveHashFactory, ProgressiveHash } from '@src/types'
 import { Transform, TransformCallback } from 'stream'
+import { CustomError } from '@blackglory/errors'
+import { ProgressiveHashFactory, IProgressiveHash } from './types'
 
 export class SplitHashValidator<T> extends Transform {
-  private hash: ProgressiveHash<T> = this.createHash()
+  private hash: IProgressiveHash<T> = this.createHash()
   private accu = 0
   private digestIndex = 0
 
@@ -66,9 +67,7 @@ export class SplitHashValidator<T> extends Transform {
   }
 }
 
-export class NotMatchedError extends Error {
-  name = this.constructor.name
-
+export class NotMatchedError extends CustomError {
   constructor() {
     super('hashes do not match')
   }

@@ -1,12 +1,8 @@
-import * as index from '@src/index'
+import * as index from '@whatwg'
 
 test('exports', () => {
   const expected = [
     'splitHash'
-  , 'SplitHashValidator'
-
-  , 'NotMatchedError'
-  , 'StreamEncodingError'
   ].sort()
 
   const target = Object.keys(index).sort()

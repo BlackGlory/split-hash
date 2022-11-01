@@ -1,9 +1,7 @@
 # split-hash
-
 Split the stream based on bytes and get digests from each part.
 
 ## Install
-
 ```sh
 npm install --save split-hash
 # or
@@ -11,11 +9,9 @@ yarn add split-hash
 ```
 
 ## Usage
-
 ### Hash
-
 ```js
-import { splitHash } from 'split-hash'
+import { splitHash } from 'split-hash/nodejs'
 import * as crypto from 'crypto'
 
 const KiB = 1024
@@ -41,9 +37,8 @@ for await (const hash of iter) {
 ```
 
 ### Validate
-
 ```js
-import { SplitHashValidator } from 'split-hash'
+import { SplitHashValidator } from 'split-hash/nodejs'
 import * as crypto from 'crypto'
 
 const KiB = 1024
@@ -70,21 +65,18 @@ stream
   .on('error', err => console.error('not matched'))
 ```
 
-## Interface
-
+## API
+### Node.js
 ```ts
 type ProgressiveHashFactory<T> = () => ProgressiveHash<T>
 
-interface ProgressiveHash<T> {
+interface IProgressiveHash<T> {
   update(buffer: Buffer): void
   digest(): T
 }
 ```
 
-## API
-
-### splitHash
-
+#### splitHash
 ```ts
 function splitHash<T>(
   stream: NodeJS.ReadableStream
@@ -95,8 +87,7 @@ function splitHash<T>(
 
 It throws `StreamEncodingError` when the `stream` encoding is set.
 
-### SplitHashValidator
-
+#### SplitHashValidator
 ```ts
 class SplitHashValidator<T> extends Stream.Transform {
   constructor(
@@ -110,14 +101,31 @@ class SplitHashValidator<T> extends Stream.Transform {
 
 It throws `NotMatchedError` when the `stream` does not match digests.
 
-### StreamEncodingError
-
+#### StreamEncodingError
 ```ts
 class StreamEncodingError extends Error
 ```
 
-### NotMatchedError
-
+#### NotMatchedError
 ```ts
 class NotMatchedError extends Error
+```
+
+### WHATWG
+```ts
+type ProgressiveHashFactory<T> = () => IProgressiveHash<T>
+
+interface IProgressiveHash<T> {
+  update(buffer: Uint8Array): void
+  digest(): Promise<T>
+}
+```
+
+#### splitHash
+```ts
+async function* splitHash<T>(
+  stream: ReadableStream
+, blockSize: number
+, createHash: ProgressiveHashFactory<T>
+): AsyncIterable<T>
 ```
