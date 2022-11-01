@@ -1,6 +1,10 @@
 import { ProgressiveHashFactory } from '@src/types'
 
-export async function* splitHash<T>(stream: NodeJS.ReadableStream, blockSize: number, createHash: ProgressiveHashFactory<T>): AsyncIterable<T> {
+export async function* splitHash<T>(
+  stream: NodeJS.ReadableStream
+, blockSize: number
+, createHash: ProgressiveHashFactory<T>
+): AsyncIterable<T> {
   let hash = createHash()
   let accu = 0
   for await (const chunk of stream) {
