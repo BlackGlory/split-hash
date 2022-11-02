@@ -13,8 +13,8 @@
     "lib"
   ],
   "exports": {
-    "nodejs": "./lib/nodejs/index.js",
-    "whatwg": "./lib/whatwg/index.js"
+    "./nodejs": "./lib/nodejs/index.js",
+    "./whatwg": "./lib/whatwg/index.js"
   },
   "sideEffects": false,
   "repository": "git@github.com:BlackGlory/split-hash.git",
