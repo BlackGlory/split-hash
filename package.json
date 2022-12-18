@@ -39,7 +39,6 @@
     }
   },
   "devDependencies": {
-    "@blackglory/jest-matchers": "0.3",
     "@blackglory/prelude": "^0.1.7",
     "@blackglory/structures": "^0.11.3",
     "@blackglory/wait-for": "^0.5.3",

@@ -3,7 +3,6 @@ import { toArrayAsync } from 'iterable-operator'
 import { KiB, getSampleWHATWGStream, createWHATWGHextHash } from '@test/utils'
 import { hashList128KiB, hashList150KiB } from '@test/fixtures/hash-list'
 import './polyfill'
-import '@blackglory/jest-matchers'
 
 describe('splitHash', () => {
   // 8 same size parts
@@ -12,11 +11,10 @@ describe('splitHash', () => {
       const stream = getSampleWHATWGStream()
       const blockSize = 128 * KiB
 
-      const result = splitHash(stream, blockSize, createWHATWGHextHash)
-      const arrResult = await toArrayAsync(result)
+      const iter = splitHash(stream, blockSize, createWHATWGHextHash)
+      const result = await toArrayAsync(iter)
 
-      expect(result).toBeAsyncIterable()
-      expect(arrResult).toStrictEqual(hashList128KiB)
+      expect(result).toStrictEqual(hashList128KiB)
     })
   })
 
@@ -26,11 +24,10 @@ describe('splitHash', () => {
       const stream = getSampleWHATWGStream()
       const blockSize = 150 * KiB
 
-      const result = splitHash(stream, blockSize, createWHATWGHextHash)
-      const arrResult = await toArrayAsync(result)
+      const iter = splitHash(stream, blockSize, createWHATWGHextHash)
+      const result = await toArrayAsync(iter)
 
-      expect(result).toBeAsyncIterable()
-      expect(arrResult).toStrictEqual(hashList150KiB)
+      expect(result).toStrictEqual(hashList150KiB)
     })
   })
 })
