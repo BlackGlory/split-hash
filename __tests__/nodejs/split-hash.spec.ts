@@ -18,29 +18,16 @@ describe('splitHash', () => {
     })
   })
 
-  // 8 same size parts
-  describe('128KiB sample', () => {
-    it('split and hash sample', async () => {
-      const stream = getSampleNodeJSStream()
-      const blockSize = 128 * KiB
+  test.each([
+    [128, hashList128KiB] // 8 same size parts
+  , [150, hashList150KiB] // 6 same size parts, 1 smaller than others.
+  ])('%sKiB sample', async (blockSizeKiB, hashList) => {
+    const stream = getSampleNodeJSStream()
+    const blockSizeBytes = blockSizeKiB * KiB
 
-      const iter = splitHash(stream, blockSize, createNodeJSHexHash)
-      const result = await toArrayAsync(iter)
+    const iter = splitHash(stream, blockSizeBytes, createNodeJSHexHash)
+    const result = await toArrayAsync(iter)
 
-      expect(result).toStrictEqual(hashList128KiB)
-    })
-  })
-
-  // 6 same size parts, 1 smaller than others.
-  describe('150KiB sample', () => {
-    it('split and hash', async () => {
-      const stream = getSampleNodeJSStream()
-      const blockSize = 150 * KiB
-
-      const iter = splitHash(stream, blockSize, createNodeJSHexHash)
-      const result = await toArrayAsync(iter)
-
-      expect(result).toStrictEqual(hashList150KiB)
-    })
+    expect(result).toStrictEqual(hashList)
   })
 })

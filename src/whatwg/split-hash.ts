@@ -2,19 +2,19 @@ import { ProgressiveHashFactory } from './types'
 
 export async function* splitHash<T>(
   stream: ReadableStream
-, blockSize: number
+, blockSizeBytes: number
 , createHash: ProgressiveHashFactory<T>
 ): AsyncIterable<T> {
   let hash = createHash()
   let accu = 0
   for await (const chunk of getIterator(stream)) {
-    if (accu + chunk.length < blockSize) {
+    if (accu + chunk.length < blockSizeBytes) {
       hash.update(chunk)
       accu += chunk.length
     } else {
       let offset = 0
       while (true) {
-        const needed = blockSize - accu
+        const needed = blockSizeBytes - accu
         const slice = chunk.slice(offset, offset + needed)
         if (slice.length === needed) {
           hash.update(slice)
