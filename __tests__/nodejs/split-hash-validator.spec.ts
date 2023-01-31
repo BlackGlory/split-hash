@@ -4,15 +4,21 @@ import { hashList128KiB, hashList150KiB } from '@test/fixtures/hash-list'
 import { go } from '@blackglory/prelude'
 
 describe('SplitHashValidator', () => {
-  // 8 same size parts
-  describe('128KiB sample', () => {
+  describe.each([
+    [128, hashList128KiB] // 8 same size parts
+  , [150, hashList150KiB] // 6 same size parts, 1 smaller than others.
+  ])('%sKiB sample', (blockSizeKiB, hashList) => {
     describe('correct hash list', () => {
       it('pass', done => {
         const stream = getSampleNodeJSStream()
-        const hashList = hashList128KiB
-        const blockSize = 128 * KiB
+        hashList = hashList.slice()
+        const blockSizeBytes = blockSizeKiB * KiB
 
-        const validator = new SplitHashValidator(hashList, blockSize, createNodeJSHexHash)
+        const validator = new SplitHashValidator(
+          hashList
+        , blockSizeBytes
+        , createNodeJSHexHash
+        )
         stream
           .pipe(validator)
           .on('error', e => done(e))
@@ -24,10 +30,14 @@ describe('SplitHashValidator', () => {
         go(async () => {
           const buffer = await getSampleBuffer()
           const stream = getSampleNodeJSStream()
-          const hashList = hashList128KiB
-          const blockSize = 128 * KiB
+          hashList = hashList.slice()
+          const blockSizeBytes = blockSizeKiB * KiB
 
-          const validator = new SplitHashValidator(hashList, blockSize, createNodeJSHexHash)
+          const validator = new SplitHashValidator(
+            hashList
+          , blockSizeBytes
+          , createNodeJSHexHash
+          )
           const output: number[] = []
           stream
             .pipe(validator)
@@ -47,11 +57,15 @@ describe('SplitHashValidator', () => {
     describe('wrong hash list', () => {
       it('pass', done => {
         const stream = getSampleNodeJSStream()
-        const hashList = hashList128KiB.slice()
+        hashList = hashList.slice()
         hashList[0] = ''
-        const blockSize = 128 * KiB
+        const blockSizeBytes = blockSizeKiB * KiB
 
-        const validator = new SplitHashValidator(hashList, blockSize, createNodeJSHexHash)
+        const validator = new SplitHashValidator(
+          hashList
+        , blockSizeBytes
+        , createNodeJSHexHash
+        )
         stream
           .pipe(validator)
           .on('error', err => {
@@ -65,10 +79,14 @@ describe('SplitHashValidator', () => {
     describe('insufficient hash list', () => {
       it('fail', done => {
         const stream = getSampleNodeJSStream()
-        const hashList = hashList128KiB.slice(0, hashList128KiB.length - 1)
-        const blockSize = 128 * KiB
+        hashList = hashList.slice(0, hashList.length - 1)
+        const blockSizeBytes = blockSizeKiB * KiB
 
-        const validator = new SplitHashValidator(hashList, blockSize, createNodeJSHexHash)
+        const validator = new SplitHashValidator(
+          hashList
+        , blockSizeBytes
+        , createNodeJSHexHash
+        )
         stream
           .pipe(validator)
           .on('error', err => {
@@ -82,105 +100,15 @@ describe('SplitHashValidator', () => {
     describe('excessive hash list', () => {
       it('fail', done => {
         const stream = getSampleNodeJSStream()
-        const hashList = hashList128KiB.slice()
-        hashList.push(hashList128KiB[0])
-        const blockSize = 128 * KiB
+        hashList = hashList.slice()
+        hashList.push(hashList[0])
+        const blockSizeBytes = blockSizeKiB * KiB
 
-        const validator = new SplitHashValidator(hashList, blockSize, createNodeJSHexHash)
-        stream
-          .pipe(validator)
-          .on('error', err => {
-            expect(err).toBeInstanceOf(NotMatchedError)
-            done()
-          })
-          .resume()
-      })
-    })
-  })
-
-  // 6 same size parts, 1 smaller than others.
-  describe('150KiB sample', () => {
-    describe('correct hash list', () => {
-      it('pass', done => {
-        const stream = getSampleNodeJSStream()
-        const hashList = hashList150KiB
-        const blockSize = 150 * KiB
-
-        const validator = new SplitHashValidator(hashList, blockSize, createNodeJSHexHash)
-        stream
-          .pipe(validator)
-          .on('error', e => done(e))
-          .on('end', () => done())
-          .resume()
-      })
-
-      it('return same data', done => {
-        go(async () => {
-          const buffer = await getSampleBuffer()
-          const stream = getSampleNodeJSStream()
-          const hashList = hashList150KiB
-          const blockSize = 150 * KiB
-
-          const validator = new SplitHashValidator(hashList, blockSize, createNodeJSHexHash)
-          const output: number[] = []
-          stream
-            .pipe(validator)
-            .on('data', chunk => output.push(...chunk))
-            .on('error', e => done(e))
-            .on('end', () => {
-              if (buffer.every((x, i) => output[i] === x)) {
-                done()
-              } else {
-                done('error')
-              }
-            })
-        })
-      })
-    })
-
-    describe('correct hash list', () => {
-      it('pass', done => {
-        const stream = getSampleNodeJSStream()
-        const hashList = hashList150KiB.slice()
-        hashList[0] = ''
-        const blockSize = 150 * KiB
-
-        const validator = new SplitHashValidator(hashList, blockSize, createNodeJSHexHash)
-        stream
-          .pipe(validator)
-          .on('error', err => {
-            expect(err).toBeInstanceOf(NotMatchedError)
-            done()
-          })
-          .resume()
-      })
-    })
-
-    describe('insufficient hash list', () => {
-      it('fail', done => {
-        const stream = getSampleNodeJSStream()
-        const hashList = hashList150KiB.slice(0, hashList150KiB.length - 1)
-        const blockSize = 150 * KiB
-
-        const validator = new SplitHashValidator(hashList, blockSize, createNodeJSHexHash)
-        stream
-          .pipe(validator)
-          .on('error', err => {
-            expect(err).toBeInstanceOf(NotMatchedError)
-            done()
-          })
-          .resume()
-      })
-    })
-
-    describe('excessive hash list', () => {
-      it('fail', done => {
-        const stream = getSampleNodeJSStream()
-        const hashList = hashList150KiB.slice()
-        hashList.push(hashList150KiB[0])
-        const blockSize = 150 * KiB
-
-        const validator = new SplitHashValidator(hashList, blockSize, createNodeJSHexHash)
+        const validator = new SplitHashValidator(
+          hashList
+        , blockSizeBytes
+        , createNodeJSHexHash
+        )
         stream
           .pipe(validator)
           .on('error', err => {
