@@ -80,7 +80,7 @@ interface IProgressiveHash<T> {
 ```ts
 function splitHash<T>(
   stream: NodeJS.ReadableStream
-, blockSize: number
+, blockSizeBytes: number
 , createHash: ProgressiveHashFactory<T>
 ): AsyncIterable<T>
 ```
@@ -92,7 +92,7 @@ It throws `StreamEncodingError` when the `stream` encoding is set.
 class SplitHashValidator<T> extends Stream.Transform {
   constructor(
     digests: T[]
-  , blockSize: number
+  , blockSizeBytes: number
   , createHash: ProgressiveHashFactory<T>
   , equals: (a: T, b: T) => boolean = Object.is
   )
