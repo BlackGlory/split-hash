@@ -66,6 +66,10 @@ function bufferToHex(buffer: ArrayBuffer): string {
   return toArray(map(bytes, byte => byte.toString(16).padStart(2, '0'))).join('')
 }
 
+export function bufferToBytes(buffer: ArrayBufferLike): number[] {
+  return toArray(new Uint8Array(buffer))
+}
+
 // It is not a robust implementation.
 // There is a `Readable.toWeb` method in the higher version of Node.js.
 export function toWHATWGReadableStream(stream: Readable): ReadableStream {

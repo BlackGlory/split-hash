@@ -16,7 +16,11 @@ export class SplitHashValidator<T> extends Transform {
     super()
   }
 
-  _transform(chunk: Buffer, encoding: BufferEncoding, callback: TransformCallback): void {
+  _transform(
+    chunk: Buffer
+  , encoding: BufferEncoding
+  , callback: TransformCallback
+  ): void {
     // chunk is always Buffer, encoding is always 'buffer', so there is no need to check
 
     if (this.accu + chunk.length < this.blockSize) {
