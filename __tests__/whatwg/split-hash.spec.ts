@@ -8,7 +8,7 @@ describe('splitHash', () => {
   // 8 same size parts
   describe('128KiB sample', () => {
     it('split and hash sample', async () => {
-      const stream = getSampleWHATWGStream()
+      const stream = getSampleWHATWGStream() as ReadableStream<unknown>
       const blockSize = 128 * KiB
 
       const iter = splitHash(stream, blockSize, createWHATWGHextHash)
@@ -21,7 +21,7 @@ describe('splitHash', () => {
   // 6 same size parts, 1 smaller than others.
   describe('150KiB sample', () => {
     it('split and hash', async () => {
-      const stream = getSampleWHATWGStream()
+      const stream = getSampleWHATWGStream() as ReadableStream<unknown>
       const blockSize = 150 * KiB
 
       const iter = splitHash(stream, blockSize, createWHATWGHextHash)
