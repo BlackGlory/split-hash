@@ -1,8 +1,8 @@
 import { getErrorAsyncIterable } from 'return-style'
-import { splitHash, StreamEncodingError } from '@nodejs/split-hash'
+import { splitHash, StreamEncodingError } from '@nodejs/split-hash.js'
 import { toArrayAsync } from 'iterable-operator'
-import { KiB, getSampleNodeJSStream, createNodeJSHexHash } from '@test/utils'
-import { hashList128KiB, hashList150KiB } from '@test/fixtures/hash-list'
+import { KiB, getSampleNodeJSStream, createNodeJSHexHash } from '@test/utils.js'
+import { hashList128KiB, hashList150KiB } from '@test/fixtures/hash-list.js'
 
 describe('splitHash', () => {
   test.each([

@@ -1,6 +1,6 @@
 import { Transform, TransformCallback } from 'stream'
 import { CustomError } from '@blackglory/errors'
-import { ProgressiveHashFactory, IProgressiveHash } from './types'
+import { ProgressiveHashFactory, IProgressiveHash } from './types.js'
 
 export class SplitHashValidator<T> extends Transform {
   private hash: IProgressiveHash<T> = this.createHash()

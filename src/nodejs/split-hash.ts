@@ -1,5 +1,5 @@
 import { CustomError } from '@blackglory/errors'
-import { ProgressiveHashFactory } from './types'
+import { ProgressiveHashFactory } from './types.js'
 
 export async function* splitHash<T>(
   stream: NodeJS.ReadableStream

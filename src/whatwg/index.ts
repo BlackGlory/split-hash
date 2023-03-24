@@ -1,2 +1,2 @@
-export * from './types'
-export * from './split-hash'
+export * from './types.js'
+export * from './split-hash.js'

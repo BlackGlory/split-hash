@@ -1,4 +1,4 @@
-import * as index from '@whatwg'
+import * as index from '@whatwg/index.js'
 
 test('exports', () => {
   const expected = [

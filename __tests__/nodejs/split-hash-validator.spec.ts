@@ -1,6 +1,6 @@
-import { SplitHashValidator, NotMatchedError } from '@nodejs/split-hash-validator'
-import { KiB, getSampleBuffer, getSampleNodeJSStream, createNodeJSHexHash, bufferToBytes } from '@test/utils'
-import { hashList128KiB, hashList150KiB } from '@test/fixtures/hash-list'
+import { SplitHashValidator, NotMatchedError } from '@nodejs/split-hash-validator.js'
+import { KiB, getSampleBuffer, getSampleNodeJSStream, createNodeJSHexHash, bufferToBytes } from '@test/utils.js'
+import { hashList128KiB, hashList150KiB } from '@test/fixtures/hash-list.js'
 import { toArrayAsync } from 'iterable-operator'
 import { getErrorAsync } from 'return-style'
 

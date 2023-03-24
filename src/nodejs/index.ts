@@ -1,3 +1,3 @@
-export * from './types'
-export * from './split-hash'
-export * from './split-hash-validator'
+export * from './types.js'
+export * from './split-hash.js'
+export * from './split-hash-validator.js'

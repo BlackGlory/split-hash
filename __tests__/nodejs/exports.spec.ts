@@ -1,4 +1,4 @@
-import * as index from '@nodejs'
+import * as index from '@nodejs/index.js'
 
 test('exports', () => {
   const expected = [

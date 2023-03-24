@@ -1,7 +1,7 @@
-import { splitHash } from '@whatwg/split-hash'
+import { splitHash } from '@whatwg/split-hash.js'
 import { toArrayAsync } from 'iterable-operator'
-import { KiB, getSampleWHATWGStream, createWHATWGHextHash } from '@test/utils'
-import { hashList128KiB, hashList150KiB } from '@test/fixtures/hash-list'
+import { KiB, getSampleWHATWGStream, createWHATWGHextHash } from '@test/utils.js'
+import { hashList128KiB, hashList150KiB } from '@test/fixtures/hash-list.js'
 import './polyfill'
 
 describe('splitHash', () => {

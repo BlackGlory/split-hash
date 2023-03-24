@@ -1,4 +1,5 @@
-import { ProgressiveHashFactory } from './types'
+import { toAsyncIterableIterator } from 'extra-stream'
+import { ProgressiveHashFactory } from './types.js'
 
 export async function* splitHash<T>(
   stream: ReadableStream
@@ -7,7 +8,7 @@ export async function* splitHash<T>(
 ): AsyncIterable<T> {
   let hash = createHash()
   let accu = 0
-  for await (const chunk of getIterator(stream)) {
+  for await (const chunk of toAsyncIterableIterator(stream)) {
     if (accu + chunk.length < blockSizeBytes) {
       hash.update(chunk)
       accu += chunk.length
@@ -36,18 +37,4 @@ export async function* splitHash<T>(
   }
   // digest remaining data if it exists
   if (accu > 0) yield await hash.digest()
-}
-
-async function* getIterator(stream: ReadableStream): AsyncIterable<Uint8Array> {
-  const reader = stream.getReader()
-  try {
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
-      yield value
-    }
-  } finally {
-    reader.cancel()
-    reader.releaseLock()
-  }
 }
