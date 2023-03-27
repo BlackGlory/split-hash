@@ -1,15 +1,13 @@
-import * as fs from 'fs'
-import * as path from 'path'
-import * as crypto from 'crypto'
+import fs from 'fs'
+import path from 'path'
+import crypto from 'crypto'
 import { IProgressiveHash as INodeJSProgressiveHash } from '@nodejs/types.js'
 import { IProgressiveHash as IWHATWGProgressiveHash } from '@whatwg/types.js'
 import { DynamicTypedArray } from '@blackglory/structures'
 import { map, toArray } from 'iterable-operator'
 import { Readable } from 'stream'
 import { ReadableStream } from 'stream/web'
-import { isntNull } from '@blackglory/prelude'
-import { AbortController } from 'extra-abort'
-import { waitForEventEmitter } from '@blackglory/wait-for'
+import { toReadableStream } from 'extra-stream'
 
 export const KiB = 1024
 
@@ -26,7 +24,7 @@ export function getSampleNodeJSStream(): Readable {
 }
 
 export function getSampleWHATWGStream(): ReadableStream {
-  return toWHATWGReadableStream(getSampleNodeJSStream())
+  return toReadableStream(getSampleNodeJSStream()) as ReadableStream
 }
 
 export function createNodeJSHexHash(): INodeJSProgressiveHash<string> {
@@ -68,39 +66,4 @@ function bufferToHex(buffer: ArrayBuffer): string {
 
 export function bufferToBytes(buffer: ArrayBufferLike): number[] {
   return toArray(new Uint8Array(buffer))
-}
-
-// It is not a robust implementation.
-// There is a `Readable.toWeb` method in the higher version of Node.js.
-export function toWHATWGReadableStream(stream: Readable): ReadableStream {
-  if (stream.destroyed) {
-    const stream = new ReadableStream()
-    stream.cancel()
-    return stream
-  }
-
-  return new ReadableStream({
-    async start(): Promise<void> {
-      await waitForEventEmitter(stream, 'readable')
-    }
-  , async pull(controller): Promise<void> {
-      const chunk = stream.read(controller.desiredSize ?? undefined)
-      if (isntNull(chunk)) {
-        controller.enqueue(chunk)
-      } else {
-        const abortController = new AbortController()
-        await Promise.race([
-          waitForEventEmitter(stream, 'end', abortController.signal)
-        , waitForEventEmitter(stream, 'readable', abortController.signal)
-        ])
-        abortController.abort()
-        if (stream.readableEnded) {
-          controller.close()
-        }
-      }
-    }
-  , cancel(): void {
-      stream.destroy()
-    }
-  })
 }
