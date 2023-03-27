@@ -40,6 +40,7 @@ for await (const hash of iter) {
 ```js
 import { SplitHashValidator } from 'split-hash/nodejs'
 import * as crypto from 'crypto'
+import { pipeline } from 'stream'
 
 const KiB = 1024
 
@@ -58,11 +59,13 @@ const createHash = () => {
 const hashList = [/* ... */]
 const validator = new SplitHashValidator(hashList, 512 * KiB, createHash)
 
-const stream = fs.createReadStream('filename.bin')
-stream
-  .pipe(validator)
-  .on('data', /* same as stream */)
-  .on('error', err => console.error('not matched'))
+const stream = pipeline(
+  fs.createReadStream('filename.bin')
+, validator
+, err => {
+    // ...
+  }
+)
 ```
 
 ## API

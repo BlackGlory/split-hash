@@ -3,6 +3,8 @@ import { KiB, getSampleBuffer, getSampleNodeJSStream, createNodeJSHexHash, buffe
 import { hashList128KiB, hashList150KiB } from '@test/fixtures/hash-list.js'
 import { toArrayAsync } from 'iterable-operator'
 import { getErrorAsync } from 'return-style'
+import { pipeline } from 'stream'
+import { pass } from '@blackglory/pass'
 
 describe('SplitHashValidator', () => {
   describe.each([
@@ -20,7 +22,13 @@ describe('SplitHashValidator', () => {
       , createNodeJSHexHash
       )
 
-      const chunks = await toArrayAsync(stream.pipe(validator))
+      const chunks = await toArrayAsync(
+        pipeline(
+          stream
+        , validator
+        , pass
+        )
+      )
       const result = chunks.flatMap(chunk => bufferToBytes(chunk))
 
       expect(result).toStrictEqual(bufferToBytes(buffer))
@@ -37,7 +45,13 @@ describe('SplitHashValidator', () => {
       , createNodeJSHexHash
       )
 
-      const err = await getErrorAsync(() => toArrayAsync(stream.pipe(validator)))
+      const err = await getErrorAsync(() => toArrayAsync(
+        pipeline(
+          stream
+        , validator
+        , pass
+        )
+      ))
 
       expect(err).toBeInstanceOf(NotMatchedError)
     })
@@ -52,7 +66,13 @@ describe('SplitHashValidator', () => {
       , createNodeJSHexHash
       )
 
-      const err = await getErrorAsync(() => toArrayAsync(stream.pipe(validator)))
+      const err = await getErrorAsync(() => toArrayAsync(
+        pipeline(
+          stream
+        , validator
+        , pass
+        )
+      ))
 
       expect(err).toBeInstanceOf(NotMatchedError)
     })
@@ -68,7 +88,13 @@ describe('SplitHashValidator', () => {
       , createNodeJSHexHash
       )
 
-      const err = await getErrorAsync(() => toArrayAsync(stream.pipe(validator)))
+      const err = await getErrorAsync(() => toArrayAsync(
+        pipeline(
+          stream
+        , validator
+        , pass
+        )
+      ))
 
       expect(err).toBeInstanceOf(NotMatchedError)
     })
