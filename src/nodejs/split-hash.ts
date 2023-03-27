@@ -5,7 +5,7 @@ export async function* splitHash<T>(
   stream: NodeJS.ReadableStream
 , blockSizeBytes: number
 , createHash: ProgressiveHashFactory<T>
-): AsyncIterable<T> {
+): AsyncIterableIterator<T> {
   let hash = createHash()
   let accu = 0
   for await (const chunk of stream) {

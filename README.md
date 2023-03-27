@@ -82,7 +82,7 @@ function splitHash<T>(
   stream: NodeJS.ReadableStream
 , blockSizeBytes: number
 , createHash: ProgressiveHashFactory<T>
-): AsyncIterable<T>
+): AsyncIterableIterator<T>
 ```
 
 It throws `StreamEncodingError` when the `stream` encoding is set.
@@ -127,5 +127,5 @@ async function* splitHash<T>(
   stream: ReadableStream
 , blockSize: number
 , createHash: ProgressiveHashFactory<T>
-): AsyncIterable<T>
+): AsyncIterableIterator<T>
 ```
