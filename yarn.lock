@@ -1876,6 +1876,15 @@ extra-abort@^0.3.0, extra-abort@^0.3.3:
     iterable-operator "^4.0.3"
     justypes "^4.2.0"
 
+extra-abort@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/extra-abort/-/extra-abort-0.3.4.tgz#45840ace78c2ca0777113338095fa03c50934f22"
+  integrity sha512-8SiGt+TDFMIKKTQ7AggsGskM4nmM/C8qBhr4vE4cvMjhZ18cRvtSYA2Ge+MpNkkgKosG0LtkQRyceWoFNdiY1A==
+  dependencies:
+    "@blackglory/errors" "^3.0.0"
+    iterable-operator "^4.0.3"
+    justypes "^4.2.0"
+
 extra-compatible@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/extra-compatible/-/extra-compatible-0.2.0.tgz#c123769350f1af1ce59086cc5c58eb327a89a50f"
@@ -1959,6 +1968,14 @@ extra-utils@^5.0.1, extra-utils@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/extra-utils/-/extra-utils-5.1.0.tgz#f5520a3b2cd5a7e3b6a1049f01d6173a244a357e"
   integrity sha512-CvskUlZyqdHzKqLYu+JhcmotjzTss14UODUqoobpqwAkswIFYL2sHXnasb/Lw/pSssd2jw6BI2sjArdJ/jNjfw==
+  dependencies:
+    justypes "^4.1.0"
+    lodash-es "^4.17.21"
+
+extra-utils@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/extra-utils/-/extra-utils-5.1.1.tgz#604dac5551ca80d0edf9ef8bbc15d17c08088b6b"
+  integrity sha512-5Bog1r7c7Kj0UynIz2UlCb66741OcMHwBZYe87/YekDwE8e+9z0f2dzyqEaVxpykVQy8GcgGmsENZmH5K7pCfg==
   dependencies:
     justypes "^4.1.0"
     lodash-es "^4.17.21"
@@ -2757,6 +2774,19 @@ iterable-operator@^4.0.2, iterable-operator@^4.0.3:
     extra-promise "^6.0.1"
     extra-utils "^5.0.1"
     justypes "^4.1.0"
+
+iterable-operator@^4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/iterable-operator/-/iterable-operator-4.0.5.tgz#cb2d3ba66e327d9f371a38ee2972a994d4e1d20a"
+  integrity sha512-tnR+XBZHfqgsRVC2Vc1EXvUtMBk3gJyxB2Ynbn193Khz6DkGb3n6OHcLt9Q+vYc5VrGbYSktorOfMV4NrLHiDA==
+  dependencies:
+    "@blackglory/errors" "^3.0.0"
+    "@blackglory/go" "^1.1.2"
+    "@blackglory/structures" "^0.13.3"
+    extra-abort "^0.3.3"
+    extra-promise "^6.0.5"
+    extra-utils "^5.1.1"
+    justypes "^4.2.0"
 
 js-sdsl@^4.1.4:
   version "4.1.5"
