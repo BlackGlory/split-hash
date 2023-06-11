@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.2](https://github.com/BlackGlory/split-hash/compare/v0.3.1...v0.3.2) (2023-06-11)
+
+
+### Bug Fixes
+
+* export src ([9f3ca5e](https://github.com/BlackGlory/split-hash/commit/9f3ca5eda37b24a3e210d8dced02fa5f9ef25fdc))
+
 ### [0.3.1](https://github.com/BlackGlory/split-hash/compare/v0.3.0...v0.3.1) (2023-03-27)
 
 ## [0.3.0](https://github.com/BlackGlory/split-hash/compare/v0.2.2...v0.3.0) (2023-03-24)
