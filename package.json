@@ -10,7 +10,8 @@
     "chunk"
   ],
   "files": [
-    "lib"
+    "lib",
+    "src"
   ],
   "type": "module",
   "exports": {
