@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.3](https://github.com/BlackGlory/split-hash/compare/v0.3.2...v0.3.3) (2026-02-20)
+
+
+### Features
+
+* add validator parameters ([f6f22a1](https://github.com/BlackGlory/split-hash/commit/f6f22a1928afedb48c29a13578a66fb6372740ed))
+
 ### [0.3.2](https://github.com/BlackGlory/split-hash/compare/v0.3.1...v0.3.2) (2023-06-11)
 
 

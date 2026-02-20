@@ -1,6 +1,6 @@
 {
   "name": "split-hash",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Split the stream based on bytes and get digests from each part.",
   "keywords": [
     "split",
