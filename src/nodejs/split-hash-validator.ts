@@ -1,5 +1,5 @@
 import { Transform, TransformCallback } from 'stream'
-import { CustomError } from '@blackglory/errors'
+import { assert, CustomError } from '@blackglory/errors'
 import { ProgressiveHashFactory, IProgressiveHash } from './types.js'
 
 export class SplitHashValidator<T> extends Transform {
@@ -9,10 +9,12 @@ export class SplitHashValidator<T> extends Transform {
 
   constructor(
     private digests: T[]
-  , private blockSize: number
+  , private blockSizeBytes: number
   , private createHash: ProgressiveHashFactory<T>
   , private equals: (a: T, b: T) => boolean = Object.is
   ) {
+    assert(blockSizeBytes > 0, 'The parameter blockSizeBytes must be greater than zero')
+
     super()
   }
 
@@ -23,13 +25,13 @@ export class SplitHashValidator<T> extends Transform {
   ): void {
     // chunk is always Buffer, encoding is always 'buffer', so there is no need to check
 
-    if (this.accu + chunk.length < this.blockSize) {
+    if (this.accu + chunk.length < this.blockSizeBytes) {
       this.hash.update(chunk)
       this.accu += chunk.length
     } else {
       let offset = 0
       while (true) {
-        const needed = this.blockSize - this.accu
+        const needed = this.blockSizeBytes - this.accu
         const slice = chunk.slice(offset, offset + needed)
         if (slice.length === needed) {
           this.hash.update(slice)

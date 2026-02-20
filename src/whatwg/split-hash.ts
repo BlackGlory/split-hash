@@ -1,4 +1,5 @@
 import { toAsyncIterableIterator } from 'extra-stream'
+import { assert } from '@blackglory/errors'
 import { ProgressiveHashFactory } from './types.js'
 
 export async function* splitHash<T>(
@@ -6,6 +7,8 @@ export async function* splitHash<T>(
 , blockSizeBytes: number
 , createHash: ProgressiveHashFactory<T>
 ): AsyncIterableIterator<T> {
+  assert(blockSizeBytes > 0, 'The parameter blockSizeBytes must be greater than zero')
+
   let hash = createHash()
   let accu = 0
   for await (const chunk of toAsyncIterableIterator(stream)) {
