@@ -19,11 +19,13 @@ export class SplitHashValidator<T> extends Transform {
   }
 
   _transform(
+    // 总是Buffer
     chunk: Buffer
+    // 总是"buffer".
   , encoding: BufferEncoding
   , callback: TransformCallback
   ): void {
-    // chunk is always Buffer, encoding is always 'buffer', so there is no need to check
+    // 由于接收到的chunk总是Buffer, 且encoding总是"buffer", 无法在此处检测chunk是否经过编码.
 
     if (this.currentBlockBytes + chunk.length < this.blockSizeBytes) {
       this.hash.update(chunk)
