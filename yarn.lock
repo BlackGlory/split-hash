@@ -39,6 +39,14 @@
     "@blackglory/pass" "^1.1.0"
     extra-utils "^5.0.1"
 
+"@blackglory/errors@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@blackglory/errors/-/errors-3.1.0.tgz#bacef020cb27dcf9ecaf75ec5a7df56b26d8367e"
+  integrity sha512-GP8sPdN5/9Gd0BrhPDCXqGkjg86FgOyf9ZkQkKrqWg2c46I4G3qrZ+xwlnYzkSV6XfsvCkzI6FMc8kFTHbnSJg==
+  dependencies:
+    "@blackglory/pass" "^1.1.0"
+    extra-utils "^5.1.1"
+
 "@blackglory/go@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@blackglory/go/-/go-1.1.2.tgz#bb76676dc5938d2ef28daea82f198e7fee4bcc92"
@@ -1978,6 +1986,15 @@ extra-utils@^5.1.1:
   integrity sha512-5Bog1r7c7Kj0UynIz2UlCb66741OcMHwBZYe87/YekDwE8e+9z0f2dzyqEaVxpykVQy8GcgGmsENZmH5K7pCfg==
   dependencies:
     justypes "^4.1.0"
+    lodash-es "^4.17.21"
+
+extra-utils@^5.21.0:
+  version "5.21.0"
+  resolved "https://registry.yarnpkg.com/extra-utils/-/extra-utils-5.21.0.tgz#6ef27d7cf74749d0f1a25e1053e5d8b352ccf053"
+  integrity sha512-CcHHyAixw7rWc1cPKabKLwUYoA9ERszfHlh9kFJyZU2z/sND0zrEHChN6ex9XFquc4nshj5GlRikzV/+B7cwKQ==
+  dependencies:
+    "@blackglory/errors" "^3.1.0"
+    justypes "^4.2.0"
     lodash-es "^4.17.21"
 
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:

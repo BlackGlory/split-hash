@@ -1,6 +1,7 @@
 import { Transform, TransformCallback } from 'stream'
 import { assert, CustomError } from '@blackglory/errors'
 import { ProgressiveHashFactory, IProgressiveHash } from './types.js'
+import { isUndefined } from 'extra-utils'
 
 export class SplitHashValidator<T> extends Transform {
   private hash: IProgressiveHash<T> = this.createHash()
@@ -37,11 +38,17 @@ export class SplitHashValidator<T> extends Transform {
         const slice = chunk.slice(offset, offset + remainingBlockBytes)
         if (slice.length === remainingBlockBytes) {
           this.hash.update(slice)
-          const digest = this.hash.digest()
-          if (!this.equals(this.digests[this.digestIndex], digest)) {
+          const currentBlockBytes = this.hash.digest()
+          const correctDigest = this.digests[this.digestIndex]
+          if (
+            isUndefined(correctDigest) ||
+            !this.equals(correctDigest, currentBlockBytes)
+          ) {
             return callback(new NotMatchedError())
           }
+
           this.digestIndex++
+
           // prepare for the next round
           this.hash = this.createHash()
           this.currentBlockBytes = 0
@@ -60,8 +67,12 @@ export class SplitHashValidator<T> extends Transform {
 
   _flush(callback: TransformCallback): void {
     if (this.currentBlockBytes > 0) {
-      const digest = this.hash.digest()
-      if (!this.equals(this.digests[this.digestIndex], digest)) {
+      const currentBlockDigest = this.hash.digest()
+      const correctDigest = this.digests[this.digestIndex]
+      if (
+        isUndefined(correctDigest) ||
+        !this.equals(correctDigest, currentBlockDigest)
+      ) {
         return callback(new NotMatchedError())
       }
       this.digestIndex++
