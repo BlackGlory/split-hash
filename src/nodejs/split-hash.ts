@@ -9,36 +9,37 @@ export async function* splitHash<T>(
   assert(blockSizeBytes > 0, 'The parameter blockSizeBytes must be greater than zero')
 
   let hash = createHash()
-  let accu = 0
+  let currentBlockBytes = 0
   for await (const chunk of stream) {
     if (!Buffer.isBuffer(chunk)) throw new StreamEncodingError()
-    if (accu + chunk.length < blockSizeBytes) {
+
+    if (currentBlockBytes + chunk.length < blockSizeBytes) {
       hash.update(chunk)
-      accu += chunk.length
+      currentBlockBytes += chunk.length
     } else {
       let offset = 0
       while (true) {
-        const needed = blockSizeBytes - accu
-        const slice = chunk.slice(offset, offset + needed)
-        if (slice.length === needed) {
+        const remainingBlockBytes = blockSizeBytes - currentBlockBytes
+        const slice = chunk.slice(offset, offset + remainingBlockBytes)
+        if (slice.length === remainingBlockBytes) {
           hash.update(slice)
           const digest = hash.digest()
           yield digest
           // prepare for the next round
           hash = createHash()
-          accu = 0
+          currentBlockBytes = 0
           offset += slice.length
         } else {
           // if the length does not match, the remaining data is not long enough, update the remaining data and exit the loop.
           hash.update(slice)
-          accu += slice.length
+          currentBlockBytes += slice.length
           break
         }
       }
     }
   }
   // digest remaining data if it exists
-  if (accu > 0) yield hash.digest()
+  if (currentBlockBytes > 0) yield hash.digest()
 }
 
 export class StreamEncodingError extends CustomError {

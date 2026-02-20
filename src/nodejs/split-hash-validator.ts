@@ -4,7 +4,7 @@ import { ProgressiveHashFactory, IProgressiveHash } from './types.js'
 
 export class SplitHashValidator<T> extends Transform {
   private hash: IProgressiveHash<T> = this.createHash()
-  private accu = 0
+  private currentBlockBytes = 0
   private digestIndex = 0
 
   constructor(
@@ -25,15 +25,15 @@ export class SplitHashValidator<T> extends Transform {
   ): void {
     // chunk is always Buffer, encoding is always 'buffer', so there is no need to check
 
-    if (this.accu + chunk.length < this.blockSizeBytes) {
+    if (this.currentBlockBytes + chunk.length < this.blockSizeBytes) {
       this.hash.update(chunk)
-      this.accu += chunk.length
+      this.currentBlockBytes += chunk.length
     } else {
       let offset = 0
       while (true) {
-        const needed = this.blockSizeBytes - this.accu
-        const slice = chunk.slice(offset, offset + needed)
-        if (slice.length === needed) {
+        const remainingBlockBytes = this.blockSizeBytes - this.currentBlockBytes
+        const slice = chunk.slice(offset, offset + remainingBlockBytes)
+        if (slice.length === remainingBlockBytes) {
           this.hash.update(slice)
           const digest = this.hash.digest()
           if (!this.equals(this.digests[this.digestIndex], digest)) {
@@ -42,12 +42,12 @@ export class SplitHashValidator<T> extends Transform {
           this.digestIndex++
           // prepare for the next round
           this.hash = this.createHash()
-          this.accu = 0
+          this.currentBlockBytes = 0
           offset += slice.length
         } else {
           // if the length does not match, the remaining data is not long enough, update the remaining data and exit the loop.
           this.hash.update(slice)
-          this.accu += slice.length
+          this.currentBlockBytes += slice.length
           break
         }
       }
@@ -57,7 +57,7 @@ export class SplitHashValidator<T> extends Transform {
   }
 
   _flush(callback: TransformCallback): void {
-    if (this.accu > 0) {
+    if (this.currentBlockBytes > 0) {
       const digest = this.hash.digest()
       if (!this.equals(this.digests[this.digestIndex], digest)) {
         return callback(new NotMatchedError())
